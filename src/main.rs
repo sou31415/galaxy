@@ -26,7 +26,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(Camera2dBundle::default());
 
     // 背景画像の読み込みと配置（固定）
-    let background_texture = asset_server.load("path/to/background_image.png");
+    let background_texture = asset_server.load("background_image.png");
     let background_scale = 1.5;
     commands.spawn(SpriteBundle {
         texture: background_texture,
@@ -35,20 +35,20 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     });
 
     // 動かす複数の画像ファイルパス
-    let image_paths = vec!["path/to/wobble_image.png", "path/to/album.png"];
+    let image_paths = vec!["1.png", "2.png"];
 
     // 複数のスプライトを生成
     let mut rng = rand::thread_rng();
-    for _ in 0..NUM_SPRITES {
+    for i in 0..image_paths.len() {
         // ランダムに画像を選択
-        let image_path = image_paths[rng.gen_range(0..image_paths.len())];
+        let image_path = image_paths[i];
         let wobble_texture = asset_server.load(image_path);
 
         // ランダムな初期位置と動きの設定
         let initial_x = rng.gen_range(-300.0..300.0);
         let initial_y = rng.gen_range(-200.0..200.0);
-        let speed_x = rng.gen_range(1.0..3.0);
-        let speed_y = rng.gen_range(1.0..3.0);
+        let speed_x = rng.gen_range(0.5..1.0);
+        let speed_y = rng.gen_range(0.5..1.0);
         let amplitude_x = rng.gen_range(0.5..2.0);
         let amplitude_y = rng.gen_range(0.5..2.0);
 
@@ -86,7 +86,7 @@ fn animate_sprites(time: Res<Time>, mut query: Query<(&mut Transform, &mut Sprit
         transform.translation.y += (wobble.timer * wobble.speed_y).cos() * wobble.amplitude_y;
 
         // 徐々にフェードアウト
-        let fade_speed = 0.1;
+        let fade_speed = 0.05;
         let alpha = (1.0 - wobble.timer * fade_speed).max(0.0);
         sprite.color = Color::rgba(1.0, 1.0, 1.0, alpha);
 

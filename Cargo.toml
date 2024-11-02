@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 bevy = "0.14.2"
 rand = { version = "0.8.5", features = ["serde"] }
+regex = "1.11.1"
