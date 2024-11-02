@@ -61,8 +61,8 @@ fn animate_sprite(time: Res<Time>, mut query: Query<(&mut Transform, &mut Sprite
         // 不規則な動きを作成
         let wobble_speed_x = 1.5;
         let wobble_speed_y = 1.0;
-        let wobble_amount_x = 0.5;
-        let wobble_amount_y = 0.3;
+        let wobble_amount_x = 5.0;
+        let wobble_amount_y = 3.0;
         transform.translation.x += (wobble.timer * wobble_speed_x).sin() * wobble_amount_x;
         transform.translation.y += (wobble.timer * wobble_speed_y).cos() * wobble_amount_y;
 
