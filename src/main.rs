@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use rand::Rng;
 use std::f32::consts::PI;
 
-const NUM_SPRITES: usize = 5; // 動かす画像の数
+const NUM_SPRITES: usize = 5; // 動かすスプライトの数
 
 fn main() {
     App::new()
@@ -34,12 +34,16 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         ..Default::default()
     });
 
-    // 動かすスプライトの設定
-    let wobble_texture = asset_server.load("path/to/wobble_image.png");
+    // 動かす複数の画像ファイルパス
+    let image_paths = vec!["path/to/wobble_image.png", "path/to/album.png"];
 
     // 複数のスプライトを生成
     let mut rng = rand::thread_rng();
     for _ in 0..NUM_SPRITES {
+        // ランダムに画像を選択
+        let image_path = image_paths[rng.gen_range(0..image_paths.len())];
+        let wobble_texture = asset_server.load(image_path);
+
         // ランダムな初期位置と動きの設定
         let initial_x = rng.gen_range(-300.0..300.0);
         let initial_y = rng.gen_range(-200.0..200.0);
@@ -50,7 +54,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
 
         commands
             .spawn(SpriteBundle {
-                texture: wobble_texture.clone(),
+                texture: wobble_texture,
                 transform: Transform {
                     translation: Vec3::new(initial_x, initial_y, 1.0),
                     scale: Vec3::splat(0.1), // 1/10サイズ
